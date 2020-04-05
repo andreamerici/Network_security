@@ -1,0 +1,45 @@
+              Use two commands for decrypting file mystery.bin.
+
+The file was produced by xoring a famous english book with a constant byte. We
+can run a frequency analysis based attack to recover the book title!
+
+First compile the commands by running make
+
+	make
+
+We can generate the occurrence table using another book:
+
+	cat ulysses.txt | ./freqfinder | less
+
+We see that the most recurring characters are
+
+CODE FREQ
+0x20 245448 (' ')
+0x65 128378 (e)
+0x74 89198 (t)
+0x6F 82356 (o)
+0x61 82067 (a)
+
+Wen can compute the occurrence table of the encrypted file by running
+
+	cat mystery.bin | ./freqfinder | less
+
+and we get
+
+CODE FREQ
+0x5B 73369 ([)
+0x1E 45750 (^^)
+0x0F 29754 (^O)
+0x1A 26330 (^Z)
+0x14 25064 (^T)
+
+So we can try replacing such characters by using as groundtruth the occurrence
+table computed above:
+
+	cat mystery.bin | ./decrypt -0x5B ' ' -0x1E 'e' -0xf 't' -0x1a 'o'
+
+I reveal here that last replacement is wrong, so we should try replacing 0x1a
+with the character occurring next, i.e., 'a' and then replace 0x14 with 'o':
+
+	cat mystery.bin | ./decrypt -0x5B ' ' -0x1E 'e' -0xf 't' -0x1a 'a' \
+			-0x14 'o'

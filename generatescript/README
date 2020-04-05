@@ -1,0 +1,17 @@
+Script generatecerts.sh repeats all steps in the tutorial. It will prompt you
+to type passphrases for protecting the generated private keys, and other values
+like the common names for the produced certificates.
+
+To use the script, please copy it in your home folder (on the VM is
+/home/netsec) together with the file openssl.cnf that is also in the archive.
+This openssl.cnf contains the default values that are suggested in the tutorial.
+
+Run the script with:
+
+netsec@netsec:~>./generatecerts.sh
+
+and press enter.
+
+Once it terminates, you will have all files in /home/netsec/certificates as it
+is reported in the tutorial and you can use these files for configuring the
+webserver.
